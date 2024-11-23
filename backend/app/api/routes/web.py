@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from fastapi.responses import HTMLResponse
 import requests
 
@@ -7,9 +7,10 @@ from app.models.translate_request import WebTranslateParams
 
 router = APIRouter()
 
-@router.get("/translate/{url:path}/{target_language}")
-async def translate_web(params: WebTranslateParams = Depends()):
+@router.get("/{target_language}")
+async def translate_web(target_language: str, url: str = Query(...)):
     """ Translate the HTML content of a webpage from a given URL to the target language.
+    Sample usage: /translate_web/en?url=https://www.example.com
     Args:
         url (str): The URL of the webpage to be translated.
         target_language (str): The target language for translation.
@@ -21,14 +22,14 @@ async def translate_web(params: WebTranslateParams = Depends()):
 
     try:
         # Fetch the HTML content from the provided URL
-        response = requests.get(params.url)
+        response = requests.get(url)
         response.raise_for_status()  # Raise an HTTPError for bad responses (4xx or 5xx)
 
         print(response.text)
 
         # Get the HTML content and translate it
         html_content = response.text
-        translated_html = translate_html(html_content, params.target_language)
+        translated_html = translate_html(html_content, target_language)
 
         # Return the translated HTML as a response
         return HTMLResponse(content=translated_html)
