@@ -16,3 +16,7 @@ export interface FileTranslation {
   translatedText: string;
 }
 
+export interface FileTranslationResponse {
+  fileName: string;
+  blob: Blob;
+}

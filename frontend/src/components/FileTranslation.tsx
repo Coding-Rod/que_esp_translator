@@ -37,7 +37,7 @@ export const FileTranslation: React.FC<FileTranslationProps> = ({
           id="file-upload"
           className="hidden"
           onChange={(e) => e.target.files?.[0] && onFileSelect(e.target.files[0])}
-          accept=".txt,.doc,.docx,.pdf"
+          accept=".docx"
         />
         <label
           htmlFor="file-upload"
@@ -48,7 +48,7 @@ export const FileTranslation: React.FC<FileTranslationProps> = ({
           Suelte su archivo aquí o haga clic para cargarlo
           </span>
           <span className="text-xs text-gray-400">
-            Soporta: PDF
+            Solo se admiten archivos .docx
           </span>
         </label>
       </div>
@@ -56,7 +56,7 @@ export const FileTranslation: React.FC<FileTranslationProps> = ({
       {loading && (
         <div className="flex items-center justify-center space-x-2">
           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
-          <span className="text-sm text-gray-600">Translating file...</span>
+          <span className="text-sm text-gray-600">Traduciendo archivo...</span>
         </div>
       )}
 
@@ -64,10 +64,7 @@ export const FileTranslation: React.FC<FileTranslationProps> = ({
         <div className="bg-white rounded-lg shadow p-4">
           <div className="flex items-center space-x-2 mb-2">
             <FileText className="w-5 h-5 text-blue-500" />
-            <h3 className="font-medium">Translated Content</h3>
-          </div>
-          <div className="prose max-w-none">
-            <p className="text-gray-700 whitespace-pre-wrap">{translatedText}</p>
+            <h3 className="font-medium">Contenido traducido</h3>
           </div>
         </div>
       )}

@@ -10,7 +10,7 @@ function App() {
   const [text, setText] = useState('');
   const [sourceLang, setSourceLang] = useState<TranslationLanguage>('esp');
   const [targetLang, setTargetLang] = useState<TranslationLanguage>('que');
-  const [fileTranslation, setFileTranslation] = useState<string | null>(null);
+  const [fileTranslation, setFileTranslation] = useState<HTMLAnchorElement | null>(null);
 
   const { data: translation, isLoading: isTranslating } = useQuery({
     queryKey: ['translate', text, targetLang],
@@ -23,11 +23,25 @@ function App() {
   });
 
   const fileTranslationMutation = useMutation({
-    mutationFn: (file: File) => translateFile(file, sourceLang, targetLang),
+    mutationFn: (file: File) => translateFile(file, targetLang),
     onSuccess: (data) => {
-      console.log(data);
-      setFileTranslation(data.translated_text);
+      // Get file
+      const blob = new Blob([data.blob], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+      const fileURL = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.download = data.fileName;
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up the URL object
+      URL.revokeObjectURL(fileURL);
+      link.remove();
+      setFileTranslation(link);
     },
+    onError: (error) => {
+      console.error(error);
+    }
   });
 
   const handleSwapLanguages = () => {
@@ -75,7 +89,7 @@ function App() {
             <FileTranslation
               onFileSelect={handleFileSelect}
               loading={fileTranslationMutation.isPending}
-              translatedText={fileTranslation}
+              translatedText={fileTranslation ? fileTranslation.href : null}
             />
           </div>
         </div>
