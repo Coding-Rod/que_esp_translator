@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+fastapi-cli==0.0.5
+beautifulsoup4==4.12.3
+chardet==5.2.0
+requests==2.32.3
