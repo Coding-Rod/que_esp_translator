@@ -1,7 +1,7 @@
-fastapi
-uvicorn
-fastapi-cli==0.0.5
 beautifulsoup4==4.12.3
-chardet==5.2.0
-requests==2.32.3
-python-docx==1.1.2
+fastapi==0.115.5
+pydantic==2.10.1
+python_docx==1.1.2
+Requests==2.32.3
+uvicorn==0.32.1
+python-multipart==0.0.17
