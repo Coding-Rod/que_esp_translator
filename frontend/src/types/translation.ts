@@ -2,13 +2,12 @@ export type TranslationLanguage = 'que' | 'esp';
 
 export interface TranslationRequest {
   text: string;
-  sourceLang: TranslationLanguage;
-  targetLang: TranslationLanguage;
+  target_language: TranslationLanguage;
 }
 
 export interface TranslationResponse {
-  translatedText: string;
-  detectedLanguage?: string;
+  original_text: string;
+  translated_text: string;
 }
 
 export interface FileTranslation {

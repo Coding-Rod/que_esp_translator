@@ -13,12 +13,11 @@ function App() {
   const [fileTranslation, setFileTranslation] = useState<string | null>(null);
 
   const { data: translation, isLoading: isTranslating } = useQuery({
-    queryKey: ['translate', text, sourceLang, targetLang],
+    queryKey: ['translate', text, targetLang],
     queryFn: () =>
       translateText({
         text,
-        sourceLang,
-        targetLang,
+        target_language: targetLang,
       }),
     enabled: text.length > 0,
   });
@@ -26,14 +25,15 @@ function App() {
   const fileTranslationMutation = useMutation({
     mutationFn: (file: File) => translateFile(file, sourceLang, targetLang),
     onSuccess: (data) => {
-      setFileTranslation(data.translatedText);
+      console.log(data);
+      setFileTranslation(data.translated_text);
     },
   });
 
   const handleSwapLanguages = () => {
     setSourceLang(targetLang);
     setTargetLang(sourceLang);
-    setText(translation?.translatedText || '');
+    setText(translation?.translated_text || '');
   };
 
   const handleFileSelect = (file: File) => {
@@ -63,7 +63,7 @@ function App() {
                 <h2 className="text-sm font-medium text-gray-700 mb-2">
                   {targetLang === 'que' ? 'Quechua' : 'Español'} Traducción
                 </h2>
-                <p className="text-gray-900">{translation.translatedText}</p>
+                <p className="text-gray-900">{translation.translated_text}</p>
               </div>
             )}
           </div>
@@ -81,7 +81,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  ); 
 }
 
 export default App;

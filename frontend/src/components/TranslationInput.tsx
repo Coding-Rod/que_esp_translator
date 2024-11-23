@@ -17,7 +17,7 @@ export const TranslationInput: React.FC<TranslationInputProps> = ({
   sourceLang,
   loading,
 }) => {
-  const [debouncedCallback] = useDebounce(onChange, 500);
+  const [debouncedCallback] = useDebounce(onChange, 1000);
 
   return (
     <div className="relative">
