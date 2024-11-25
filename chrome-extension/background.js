@@ -1,5 +1,5 @@
 // background.js
-const API_URL = "https://que-esp-translator.onrender.com";
+const API_URL = "https://sadly-top-dove.ngrok-free.app";
 
 // Listen for the "Translate Text" message from the popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

@@ -1,4 +1,4 @@
-const API_URL = "https://que-esp-translator.onrender.com";
+const API_URL = "https://sadly-top-dove.ngrok-free.app";
 
 document.getElementById("translate-button").addEventListener("click", async () => {
   const text = document.getElementById("text-input").value;
