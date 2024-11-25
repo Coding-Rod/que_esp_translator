@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDebounce } from 'use-debounce';
+import React, { useCallback, useEffect, useState } from 'react';
+import debounce from "just-debounce-it";
 import { ArrowLeftRight } from 'lucide-react';
 
 interface TranslationInputProps {
@@ -17,7 +17,22 @@ export const TranslationInput: React.FC<TranslationInputProps> = ({
   sourceLang,
   loading,
 }) => {
-  const [debouncedCallback] = useDebounce(onChange, 1000);
+  const [inputValue, setInputValue] = useState(value);
+
+  const debouncedOnChange = useCallback(
+    debounce((newValue: string) => {
+      onChange(newValue);
+    }, 1000),
+    []
+  );
+
+  useEffect(() => {
+    debouncedOnChange(inputValue);
+  }, [inputValue, debouncedOnChange]);
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   return (
     <div className="relative">
@@ -36,8 +51,8 @@ export const TranslationInput: React.FC<TranslationInputProps> = ({
       <textarea
         className="w-full h-40 p-4 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
         placeholder={`Escribe en ${sourceLang === 'que' ? 'Quechua' : 'Español'}...`}
-        value={value}
-        onChange={(e) => debouncedCallback(e.target.value)}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
       />
       {loading && (
         <div className="absolute bottom-4 right-4">
